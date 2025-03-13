@@ -37,7 +37,7 @@ process bbduk {
   script:
   if ( params.lib_pairedness == 'paired' ) {
     """
-    MEM=\$(echo ${task.memory} | sed 's/ GB//g')
+    MEM=\$(echo ${task.memory ?: '8 GB'} | sed 's/ GB//g')
     echo \${MEM}
     bbduk.sh -Xmx\${MEM}g ref=${db} threads=${task.cpus} stats=${name}.bbduk_stats.txt ordered=t k=${params.bbduk_kmer} in=${reads[0]} in2=${reads[1]} out=${reads[0].baseName}.clean.fastq out2=${reads[1].baseName}.clean.fastq outm=${reads[0].baseName}.contamination.fastq outm2=${reads[1].baseName}.contamination.fastq
 
